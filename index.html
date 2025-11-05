@@ -3,32 +3,119 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CIS Cloud Quiz Hub 🧠</title>
+  <title>CIS Cloud Quiz for Hardworking Students</title>
   <style>
     body {
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #e0f7fa, #e1bee7);
-      color: #333;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
-
-    header {
-      background: #3f51b5;
-      color: white;
-      width: 100%;
+      font-family: Arial, sans-serif;
+      background-color: #eef2f3;
       text-align: center;
+      margin: 0;
       padding: 20px;
-      font-size: 1.8em;
-      font-weight: 600;
+    }
+    h1 {
+      background-color: #1e88e5;
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    button {
+      background-color: #1e88e5;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      margin: 5px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    #description {
+      display: none;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 10px auto;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+    .question-box {
+      background: white;
+      margin: 15px auto;
+      padding: 20px;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>CIS Cloud Quiz ☁️</h1>
+  <button onclick="toggleDescription()">About This Website</button>
+
+  <div id="description">
+    <h3>For Hardworking Students 💼</h3>
+    <p>
+      Learning is the foundation of all progress. This website was created to help Computer Information Systems students test and grow their knowledge. 
+      The goal is to make studying fun, simple, and rewarding. By answering questions, students strengthen their understanding of cloud and technology concepts. 
+      Every question is an opportunity to learn something new. Technology changes fast, so continuous learning keeps students ready for real-world challenges. 
+      Hardworking learners shape the future of the tech industry. Consistency and curiosity are the keys to success. 
+      Keep learning, keep building, and never stop improving — this is your journey to greatness.
+    </p>
+  </div>
+
+  <div class="question-box">
+    <h2 id="question">Loading question...</h2>
+    <div id="answers"></div>
+    <p id="score"></p>
+  </div>
+
+  <script>
+    const questions = [
+      { q: "What does IaaS stand for?", a: ["Infrastructure as a Service", "Internet as a Service"], correct: 0 },
+      { q: "Which company created AWS?", a: ["Amazon", "Google"], correct: 0 },
+      { q: "What is SaaS?", a: ["Software as a Service", "Storage and Access System"], correct: 0 },
+      { q: "Which cloud provider offers Azure?", a: ["Microsoft", "Apple"], correct: 0 },
+      { q: "What is virtualization?", a: ["Running multiple OS on one system", "Saving passwords online"], correct: 0 },
+    ];
+
+    let score = 0;
+    let count = 0;
+
+    function loadQuestion() {
+      if (count >= 23) {
+        document.getElementById("question").textContent = "Quiz Complete! 🎓";
+        document.getElementById("answers").innerHTML = "";
+        document.getElementById("score").textContent = "Your Score: " + score + " / 23";
+        return;
+      }
+
+      const q = questions[Math.floor(Math.random() * questions.length)];
+      document.getElementById("question").textContent = q.q;
+
+      const answersDiv = document.getElementById("answers");
+      answersDiv.innerHTML = "";
+      q.a.forEach((option, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.onclick = () => {
+          if (i === q.correct) score++;
+          count++;
+          loadQuestion();
+        };
+        answersDiv.appendChild(btn);
+      });
+      document.getElementById("score").textContent = "Question: " + (count + 1) + "/23";
     }
 
-    .tab {
-      margin-top: 10px;
-      background: #5c6bc0;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8
+    function toggleDescription() {
+      const box = document.getElementById("description");
+      box.style.display = box.style.display === "none" ? "block" : "none";
+    }
+
+    loadQuestion();
+  </script>
+
+</body>
+</html>
